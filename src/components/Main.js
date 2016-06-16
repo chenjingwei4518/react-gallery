@@ -17,6 +17,16 @@ imageDatas = (function(imageDatasArr) {
 })(imageDatas);
 
 var ImgFigure = React.createClass({
+
+	handleClick:function(e){
+		e.stopPropagation();
+		e.preventDefault();
+		if(this.props.arrange.isCenter){
+			this.props.inverse();
+		}else{
+			this.props.center();
+		}
+	},
 	render(){
 
 		let styleObj = {};
@@ -25,11 +35,28 @@ var ImgFigure = React.createClass({
 			styleObj = this.props.arrange.pos;
 		}
 
+		if(this.props.arrange.rotate){
+			(['Moz','ms','Webkit','']).forEach(function(value){
+				styleObj[value+'Transform'] = 'rotate('+this.props.arrange.rotate+'deg)';
+			}.bind(this));
+		}
+
+		if(this.props.arrange.isCenter){
+			styleObj.zIndex = 11;
+		}
+
+		let clazzName = 'img-figure';
+		clazzName += this.props.arrange.isInverse?' is-inverse':'';
 		return(
-			<figure className="img-figure" style = {styleObj}>
-				<img src={this.props.data.url} alt={this.props.data.title} style={{"height":"240px","width":"240px"}} />
+			<figure className={clazzName} style = {styleObj} onClick={this.handleClick}>
+				<img src={this.props.data.url} alt={this.props.data.title} style={{'height':'240px','width':'240px'}} />
 				<figcaption>
 					<h2 className="img-title ">{this.props.data.title}</h2>
+					<div className="img-back" onClick={this.handleClick}>
+						<p>
+							{this.props.data.desc}
+						</p>
+					</div>
 				</figcaption>
 			</figure>
 		)
@@ -38,6 +65,10 @@ var ImgFigure = React.createClass({
 
 function getRangeRandom(low,high){
 	return Math.ceil(Math.random() * (high - low) + low);
+}
+
+function get30DegRandom(){
+	return ((Math.random()>0.5?'':'-')+Math.ceil(Math.random() * 30));
 }
 
 var AppComponent = React.createClass({
@@ -64,7 +95,10 @@ var AppComponent = React.createClass({
 				pos: {
 					left: '0',
 					top: '0'
-				}
+				},
+				rotate:0,
+				isInverse:false,
+				isCenter:false
 			}]
 		};
 	},
@@ -83,16 +117,24 @@ var AppComponent = React.createClass({
 			  imgsArrangeTopArr = [],
 			  topImgNum = Math.ceil(Math.random()*2),
 			  topImgSpliceIndex = 0,
-			  imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1); 
+			  imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
 
-			  imgsArrangeCenterArr[0].pos = centerPos;
+			  imgsArrangeCenterArr[0] = {
+			  	pos:centerPos,
+			  	rotate:0,
+			  	isCenter:true
+			  };
 			  topImgSpliceIndex = Math.ceil(Math.random() * (imgsArrangeArr.length - topImgNum));
 			  imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex,topImgNum);
 
 			  imgsArrangeTopArr.forEach(function(value,index){
-			  		imgsArrangeTopArr[index].pos = {
-			  			top:getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1]),
-			  			left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])
+			  		imgsArrangeTopArr[index]= {
+			  			pos:{
+			  				top:getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1])+'',
+			  				left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])+''
+			  			},
+			  			rotate:get30DegRandom(),
+			  			isCenter:false
 
 			  		};
 
@@ -106,10 +148,13 @@ var AppComponent = React.createClass({
 			  			hPosRangeLORX = hPosRangeRightSecX;
 			  		}
 
-			  		imgsArrangeArr[i].pos = {
-			  			top:getRangeRandom(hPosRangeY[0],hPosRangeY[1]),
-			  			left:getRangeRandom(hPosRangeLORX[0],hPosRangeLORX[1])
-
+			  		imgsArrangeArr[i] = {
+			  			pos:{
+			  				top:getRangeRandom(hPosRangeY[0],hPosRangeY[1])+'',
+			  				left:getRangeRandom(hPosRangeLORX[0],hPosRangeLORX[1])+''
+			  			},
+			  			rotate:get30DegRandom(),
+			  			isCenter:false
 			  		};
 			  }
 
@@ -139,8 +184,8 @@ var AppComponent = React.createClass({
 			  halfImgH = Math.ceil(imgH/2);
 
 		this.Constant.centerPos = {
-			left:halfStageW - halfImgW,
-			top :halfStageH - halfImgH
+			left:(halfStageW - halfImgW)+"",
+			top :(halfStageH - halfImgH)+""
 		};
 
 		this.Constant.hPosRange.leftSecX[0] = -halfImgW;
@@ -155,8 +200,23 @@ var AppComponent = React.createClass({
 		this.Constant.vPosRange.x[0] = halfStageW - imgW;
 		this.Constant.vPosRange.x[1] = halfStageW;
 
-		this.rearRange(0);	
+		this.rearRange(0);
 
+	},
+
+	inverse : function(index){
+		return function(){
+			var imgsArrangeArr = this.state.imgsArrangeArr;
+			imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
+			this.setState({
+				imgsArrangeArr:imgsArrangeArr
+			});
+		}.bind(this);
+	},
+	center:function(index){
+		return function(){
+			this.rearRange(index);
+		}.bind(this);
 	},
 
   render() {
@@ -169,10 +229,15 @@ var AppComponent = React.createClass({
 				pos:{
 					left:'0',
 					top:'0'
-				}
+				},
+				rotate:0,
+				isInverse:false,
+				isCenter:false
 			};
-		}  		
-  		imgFigure.push(<ImgFigure key={i} data={item} ref={'imgFigure'+i} arrange={this.state.imgsArrangeArr[i]}></ImgFigure>);
+		}
+  		imgFigure.push(<ImgFigure key={i} data={item} ref={'imgFigure'+i} 
+  						arrange={this.state.imgsArrangeArr[i]} inverse={this.inverse(i)}
+  						center={this.center(i)}></ImgFigure>);
   	}.bind(this));
     return (
       <section className="stage" ref="stage">
