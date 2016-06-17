@@ -11,6 +11,7 @@ imageDatas = (function(imageDatasArr) {
 	for (let i = 0; i < imageDatasArr.length; i++) {
 		let image = imageDatasArr[i];
 		image.url = require('../images/' + image.fileName);
+		image.song_url = '../music/' + image.song_url;
 		imageDatasArr[i] = image;
 	}
 	return imageDatasArr;
@@ -93,13 +94,15 @@ var AppComponent = React.createClass({
 		return {
 			imgsArrangeArr: [{
 				pos: {
-					left: '0',
-					top: '0'
+					left: '0px',
+					top: '0px'
 				},
 				rotate:0,
 				isInverse:false,
 				isCenter:false
-			}]
+			}],
+			play:false,
+			active:imageDatas[0]
 		};
 	},
 
@@ -130,8 +133,8 @@ var AppComponent = React.createClass({
 			  imgsArrangeTopArr.forEach(function(value,index){
 			  		imgsArrangeTopArr[index]= {
 			  			pos:{
-			  				top:getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1])+'',
-			  				left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])+''
+			  				top:getRangeRandom(vPosRangeTopY[0],vPosRangeTopY[1])+'px',
+			  				left:getRangeRandom(vPosRangeX[0],vPosRangeX[1])+'px'
 			  			},
 			  			rotate:get30DegRandom(),
 			  			isCenter:false
@@ -150,8 +153,8 @@ var AppComponent = React.createClass({
 
 			  		imgsArrangeArr[i] = {
 			  			pos:{
-			  				top:getRangeRandom(hPosRangeY[0],hPosRangeY[1])+'',
-			  				left:getRangeRandom(hPosRangeLORX[0],hPosRangeLORX[1])+''
+			  				top:getRangeRandom(hPosRangeY[0],hPosRangeY[1])+'px',
+			  				left:getRangeRandom(hPosRangeLORX[0],hPosRangeLORX[1])+'px'
 			  			},
 			  			rotate:get30DegRandom(),
 			  			isCenter:false
@@ -167,6 +170,7 @@ var AppComponent = React.createClass({
 			this.setState({
 				imgsArrangeArr:imgsArrangeArr
 			});
+			this.play(centerIndex);
 
 	},
 
@@ -184,8 +188,8 @@ var AppComponent = React.createClass({
 			  halfImgH = Math.ceil(imgH/2);
 
 		this.Constant.centerPos = {
-			left:(halfStageW - halfImgW)+"",
-			top :(halfStageH - halfImgH)+""
+			left:(halfStageW - halfImgW)+'px',
+			top :(halfStageH - halfImgH)+'px'
 		};
 
 		this.Constant.hPosRange.leftSecX[0] = -halfImgW;
@@ -218,7 +222,14 @@ var AppComponent = React.createClass({
 			this.rearRange(index);
 		}.bind(this);
 	},
-
+	play : function(index){
+        this.setState({ 
+        	play: true,
+        	active:imageDatas[index]
+        },()=>{
+        	this.refs.player.play();
+        });
+    },
   render() {
 
   	let controllerUnits = [],
@@ -227,18 +238,19 @@ var AppComponent = React.createClass({
 		if(!this.state.imgsArrangeArr[i]){
 			this.state.imgsArrangeArr[i] = {
 				pos:{
-					left:'0',
-					top:'0'
+					left:'0px',
+					top:'0px'
 				},
 				rotate:0,
 				isInverse:false,
 				isCenter:false
 			};
 		}
-  		imgFigure.push(<ImgFigure key={i} data={item} ref={'imgFigure'+i} 
-  						arrange={this.state.imgsArrangeArr[i]} inverse={this.inverse(i)}
-  						center={this.center(i)}></ImgFigure>);
+  		imgFigure.push(<ImgFigure key={i} data={item} ref={'imgFigure'+i}
+  			arrange={this.state.imgsArrangeArr[i]} inverse={this.inverse(i)}
+  			center={this.center(i)}></ImgFigure>);
   	}.bind(this));
+  	console.log(this.state.active.song_url);
     return (
       <section className="stage" ref="stage">
       	<section className="img-sec">
@@ -247,6 +259,7 @@ var AppComponent = React.createClass({
       	<nav className="controller-nav">
       		{controllerUnits}
       	</nav>
+      	<audio src={this.state.active.song_url} autoPlay={this.state.play} preload="auto" ref="player"></audio>
       </section>
     );
   }
