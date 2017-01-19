@@ -1,83 +1,53 @@
 [
 	{
 		"fileName":"1.jpg",
-		"title":"have a good time",
+		"title":"美丽的小宝贝",
 		"desc":"react gallery show.",
-		"song_url": "1.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/1.mp3"
 	},{
 		"fileName":"2.jpg",
-		"title":"have a good time",
+		"title":"静静的美女子",
 		"desc":"react gallery show.",
-		"song_url": "2.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/2.mp3"
 	},{
 		"fileName":"3.jpg",
-		"title":"have a good time",
+		"title":"萌萌的小公举",
 		"desc":"react gallery show.",
-		"song_url": "3.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/3.mp3"
 	},{
 		"fileName":"4.jpg",
-		"title":"have a good time",
+		"title":"西塘姐妹花",
 		"desc":"react gallery show.",
-		"song_url": "4.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/4.mp3"
 	},{
 		"fileName":"5.jpg",
 		"title":"have a good time",
 		"desc":"react gallery show.",
-		"song_url": "5.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/5.mp3"
 	},{
 		"fileName":"6.jpg",
-		"title":"have a good time",
+		"title":"无敌剪刀手",
 		"desc":"react gallery show.",
-		"song_url": "6.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/6.mp3"
 	},{
 		"fileName":"7.jpg",
-		"title":"have a good time",
+		"title":"电影风范",
 		"desc":"react gallery show.",
-		"song_url": "7.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/7.mp3"
 	},{
 		"fileName":"8.jpg",
-		"title":"have a good time",
+		"title":"脑壳痛~",
 		"desc":"react gallery show.",
-		"song_url": "8.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/8.mp3"
 	},{
 		"fileName":"9.jpg",
-		"title":"have a good time",
+		"title":"牙疼~",
 		"desc":"react gallery show.",
-		"song_url": "9.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/9.mp3"
 	},{
 		"fileName":"10.jpg",
-		"title":"have a good time",
+		"title":"嘴巴疼~",
 		"desc":"react gallery show.",
-		"song_url": "10.mp3"
-	},{
-		"fileName":"11.jpg",
-		"title":"have a good time",
-		"desc":"react gallery show.",
-		"song_url": "11.mp3"
-	},{
-		"fileName":"12.jpg",
-		"title":"have a good time",
-		"desc":"react gallery show.",
-		"song_url": "12.mp3"
-	},{
-		"fileName":"13.jpg",
-		"title":"have a good time",
-		"desc":"react gallery show.",
-		"song_url": "13.mp3"
-	},{
-		"fileName":"14.jpg",
-		"title":"have a good time",
-		"desc":"react gallery show.",
-		"song_url": "14.mp3"
-	},{
-		"fileName":"15.jpg",
-		"title":"have a good time",
-		"desc":"react gallery show.",
-		"song_url": "15.mp3"
-	},{
-		"fileName":"16.jpg",
-		"title":"have a good time",
-		"desc":"react gallery show.",
-		"song_url": "16.mp3"
+		"song_url": "http://chenjingwei4518.github.io/react-gallery/music/10.mp3"
 	}
 ]

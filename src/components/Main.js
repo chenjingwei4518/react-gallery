@@ -11,7 +11,6 @@ imageDatas = (function(imageDatasArr) {
 	for (let i = 0; i < imageDatasArr.length; i++) {
 		let image = imageDatasArr[i];
 		image.url = require('../images/' + image.fileName);
-		image.song_url = '../music/' + image.song_url;
 		imageDatasArr[i] = image;
 	}
 	return imageDatasArr;
@@ -41,6 +40,7 @@ var ImgFigure = React.createClass({
 				styleObj[value+'Transform'] = 'rotate('+this.props.arrange.rotate+'deg)';
 			}.bind(this));
 		}
+	
 
 		if(this.props.arrange.isCenter){
 			styleObj.zIndex = 11;
@@ -191,13 +191,14 @@ var AppComponent = React.createClass({
 			left:(halfStageW - halfImgW)+'px',
 			top :(halfStageH - halfImgH)+'px'
 		};
+		let hPosRange = this.Constant.hPosRange;
 
-		this.Constant.hPosRange.leftSecX[0] = -halfImgW;
-		this.Constant.hPosRange.leftSecX[1] = halfStageW - halfImgW * 3;
-		this.Constant.hPosRange.rightSecX[0] = halfStageW + halfImgW;
-		this.Constant.hPosRange.rightSecX[1] = stageW - halfImgW;
-		this.Constant.hPosRange.y[0] = -halfImgH;
-		this.Constant.hPosRange.y[1] = stageH - halfImgH;
+		hPosRange.leftSecX[0] = -halfImgW;
+		hPosRange.leftSecX[1] = halfStageW - halfImgW * 3;
+		hPosRange.rightSecX[0] = halfStageW + halfImgW;
+		hPosRange.rightSecX[1] = stageW - halfImgW;
+		hPosRange.y[0] = -halfImgH;
+		hPosRange.y[1] = stageH - halfImgH;
 
 		this.Constant.vPosRange.topY[0] = -halfImgH;
 		this.Constant.vPosRange.topY[1] = halfStageH - halfImgH * 3;
@@ -250,7 +251,6 @@ var AppComponent = React.createClass({
   			arrange={this.state.imgsArrangeArr[i]} inverse={this.inverse(i)}
   			center={this.center(i)}></ImgFigure>);
   	}.bind(this));
-  	console.log(this.state.active.song_url);
     return (
       <section className="stage" ref="stage">
       	<section className="img-sec">
@@ -259,7 +259,7 @@ var AppComponent = React.createClass({
       	<nav className="controller-nav">
       		{controllerUnits}
       	</nav>
-      	<audio src={this.state.active.song_url} autoPlay={this.state.play} preload="auto" ref="player"></audio>
+      	<audio src={"http://chenjingwei4518.github.io/react-gallery/music/1.mp3"} autoPlay={this.state.play} preload="auto" ref="player"></audio>
       </section>
     );
   }
